@@ -3,6 +3,36 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## Project Wtiteup
+
+### Implementation
+
+Implementing this project was not very difficult, especially after implementing Kalman and particle filters in preceding projects.
+
+It also helped that I practiced and implemented the algorithm in Python when going through lesson taught by Sebastian.
+
+In code, I decided to add an additional variable `dt` that can later be used to accomodatie different time intervals, and also because my mathematical other side could not tolerate not using `dt` updating derivative and integral of cross-track error.
+
+I also added a class method that takes total error and returns steering angle, and also checks that it is within the given range of `[-1,1]`.
+
+Apart from this I do not think there is anything especially interesting in my implementation.
+
+### Tuning Parameters of PID Controller
+
+I spent quite some time tuning the parameters by hand. I decided to not implement the twiddle algorithm.
+
+My general approach was similar to what was taught in class.
+
+I initially tuned only the P parameter, essentially making it a P-controller. I noticed that a large value led to an increasing oscillation of the car around the center of the road. I found values of `0.1-0.2` to work well at throttle `0.3`.
+
+I then fixed `Kp` at `0.2` and started tuning the `Kd` parameter, essentially implementing PD-controller. I noticed that small values similar to `Kp` did not make a big difference and then tried `1.0`, followed by `10.0`, which made the car very responsive. I was satisfied with results.
+
+I then proceeded to tune the last parameter, `Ki`, essentially implementing PID-controller. I found that even small value can lead to unpredictable oscillation during sharp turns, even though on straights and slight turns it worked nice. I was going down by the factor of `10` and finally settled down at `0.0001`.
+
+Then I played with throttle and these parameters worked up to throttle level of `0.5`, which left me satisfied. I then returned to the default value before submitting the project.
+
+---
+
 ## Dependencies
 
 * cmake >= 3.5
