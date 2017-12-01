@@ -4,7 +4,7 @@
 using namespace std;
 
 /*
-* TODO: Complete the PID class.
+* TODO: Complete the PID class [DONE]
 */
 
 PID::PID() {}
@@ -21,14 +21,30 @@ void PID::Init(double Kp, double Ki, double Kd) {
   PID::Kd = Kd;
 
   // Initialize errors
-  p_error = 0;
-  i_error = 0;
-  d_error = 0;
+  p_error = 0; // proportional
+  i_error = 0; // integral
+  d_error = 0; // differential
 }
 
 void PID::UpdateError(double cte) {
+  i_error += cte * dt; // integral accumulation
+  d_error = (cte - p_error) / dt; // (current - last) / dt
+  p_error = cte; // update current
 }
 
 double PID::TotalError() {
+  return Kp * p_error + Kd * d_error + Ki * i_error;
+}
+
+double PID::SteerAngle() {
+  double total_error = TotalError();
+  double angle = - total_error;
+  if (angle < -1) {
+    return -1;
+  } else if (angle > 1) {
+    return 1;
+  } else {
+    return angle;
+  }
 }
 

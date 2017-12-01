@@ -33,13 +33,13 @@ int main()
   uWS::Hub h;
 
   PID pid;
-  // TODO: Initialize the pid variable. [DONE]
+  // TODO: Initialize the pid variable [DONE]
 
   // initialize controller parameters
   // all zero -> car not steering (for testing purposes)
-  double Kp = 0.0;
-  double Ki = 0.0;
-  double Kd = 0.0;
+  double Kp = 0.18;
+  double Ki = 0.0001;
+  double Kd = 10.0;
 
   pid.Init(Kp, Ki, Kd);
 
@@ -56,15 +56,17 @@ int main()
         if (event == "telemetry") {
           // j[1] is the data JSON object
           double cte = std::stod(j[1]["cte"].get<std::string>());
-          double speed = std::stod(j[1]["speed"].get<std::string>());
-          double angle = std::stod(j[1]["steering_angle"].get<std::string>());
+//          double speed = std::stod(j[1]["speed"].get<std::string>());
+//          double angle = std::stod(j[1]["steering_angle"].get<std::string>());
           double steer_value;
           /*
-          * TODO: Calcuate steering value here, remember the steering value is
+          * TODO: Calcuate steering value here, remember the steering value is [DONE]
           * [-1, 1].
           * NOTE: Feel free to play around with the throttle and speed. Maybe use
           * another PID controller to control the speed!
           */
+          pid.UpdateError(cte);
+          steer_value = pid.SteerAngle();
           
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
