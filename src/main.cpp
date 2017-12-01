@@ -33,7 +33,15 @@ int main()
   uWS::Hub h;
 
   PID pid;
-  // TODO: Initialize the pid variable.
+  // TODO: Initialize the pid variable. [DONE]
+
+  // initialize controller parameters
+  // all zero -> car not steering (for testing purposes)
+  double Kp = 0.0;
+  double Ki = 0.0;
+  double Kd = 0.0;
+
+  pid.Init(Kp, Ki, Kd);
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
