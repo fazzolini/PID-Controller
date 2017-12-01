@@ -18,6 +18,11 @@ public:
   double Kd;
 
   /*
+   * To allow for variable time interval
+   */
+  double dt;
+
+  /*
   * Constructor
   */
   PID();
